@@ -11,7 +11,8 @@ DISTINCT flights.distance,
  ORDER BY
  flights.distance DESC;
 
-2.What are the different numbers of engines in the planes table? 4,3,2,1 SELECT DISTINCT planes.engines
+2.What are the different numbers of engines in the planes table? 4,3,2,1 
+SELECT DISTINCT planes.engines
 
 FROM 
  public.planes
@@ -19,3 +20,23 @@ FROM
 ORDER BY
  planes.engines DESC;
 Enter file contents here
+
+ For each number of engines, which aircraft have
+the most number of seats? engines 1 - DEHAVILLAND (16 SEATS) engines 2 - BOEING (400 SEATS)
+engines 3 - AIRBUS (379 SEATS) engines 4 -BOEING (450 SEATS)
+
+
+SELECT 
+ DISTINCT planes.seats, 
+     planes.engines, 
+  planes.manufacturer 
+FROM 
+  public.planes
+ 
+ORDER BY
+PLANES.ENGINES ASC,
+PLANES.SEATS DESC 
+
+    LIMIT 100
+    
+  ;
