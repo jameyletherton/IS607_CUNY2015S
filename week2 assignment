@@ -1,0 +1,21 @@
+
+1.from JFK to HNL - 4983
+ SELECT 
+
+DISTINCT flights.distance, 
+ flights.flight, 
+ flights.origin, 
+ flights.dest
+ FROM 
+ public.flights
+ ORDER BY
+ flights.distance DESC;
+
+2.What are the different numbers of engines in the planes table? 4,3,2,1 SELECT DISTINCT planes.engines
+
+FROM 
+ public.planes
+
+ORDER BY
+ planes.engines DESC;
+Enter file contents here
