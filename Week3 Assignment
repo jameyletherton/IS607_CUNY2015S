@@ -1,0 +1,211 @@
+-- Expense_Revenue_report.sql
+--
+
+DROP TABLE IF EXISTS Expense_T;
+DROP TABLE IF EXISTS Revenue_T;
+DROP TABLE IF EXISTS Location_T;
+DROP TABLE IF EXISTS Department_T;
+
+CREATE TABLE Location_T
+(
+  Loc_ID varchar PRIMARY KEY,
+  Loc_Name varchar NOT NULL,
+  Zip_Code varchar NOT NULL
+);
+
+INSERT INTO Location_T ( Loc_ID, Loc_Name, Zip_Code ) VALUES ( '001', 'OAHU', 96707);
+INSERT INTO Location_T ( Loc_ID, Loc_Name, Zip_Code ) VALUES ( '002', 'MAUI', 96793);
+INSERT INTO Location_T ( Loc_ID, Loc_Name, Zip_Code ) VALUES ( '003', 'HAWAII', 96720);
+INSERT INTO Location_T ( Loc_ID, Loc_Name, Zip_Code ) VALUES ( '004', 'KAUAI', 96705);
+INSERT INTO Location_T ( Loc_ID, Loc_Name, Zip_Code ) VALUES ( '005', 'MOLOKAI', 96729);
+INSERT INTO Location_T ( Loc_ID, Loc_Name, Zip_Code ) VALUES ( '006', 'MAUI', 96763);
+INSERT INTO Location_T ( Loc_ID, Loc_Name, Zip_Code ) VALUES ( '007', 'OAHU', 96782);
+INSERT INTO Location_T ( Loc_ID, Loc_Name, Zip_Code ) VALUES ( '008', 'OAHU', 96813);
+INSERT INTO Location_T ( Loc_ID, Loc_Name, Zip_Code ) VALUES ( '009', 'OAHU', 96850);
+INSERT INTO Location_T ( Loc_ID, Loc_Name, Zip_Code ) VALUES ( '010', 'OAHU', 96825);
+INSERT INTO Location_T ( Loc_ID, Loc_Name, Zip_Code ) VALUES ( '011', 'MAUI', 96708);
+INSERT INTO Location_T ( Loc_ID, Loc_Name, Zip_Code ) VALUES ( '012', 'KAUAI', 96714);
+INSERT INTO Location_T ( Loc_ID, Loc_Name, Zip_Code ) VALUES ( '013', 'OAHU', 96734);
+INSERT INTO Location_T ( Loc_ID, Loc_Name, Zip_Code ) VALUES ( '014', 'HAWAII', 96740);
+
+ 
+SELECT * FROM Location_T;
+
+CREATE TABLE Department_T
+(
+  Dept_ID VARCHAR PRIMARY KEY,
+  Dept_Name VARCHAR NOT NULL
+);
+
+INSERT INTO Department_T ( Dept_ID, Dept_Name) VALUES ( 1000, 'Inpatient');
+INSERT INTO Department_T ( Dept_ID, Dept_Name) VALUES ( 2000, 'Outpatient');
+INSERT INTO Department_T ( Dept_ID, Dept_Name) VALUES ( 3001, 'ER');
+INSERT INTO Department_T ( Dept_ID, Dept_Name) VALUES ( 4001, 'Pharmacy-inpatient');
+INSERT INTO Department_T ( Dept_ID, Dept_Name) VALUES ( 4002, 'Pharamcy-outpatient');
+INSERT INTO Department_T ( Dept_ID, Dept_Name) VALUES ( 4003, 'Pharamcy-Infusion');
+INSERT INTO Department_T ( Dept_ID, Dept_Name) VALUES ( 5001, 'Img-Xray');
+INSERT INTO Department_T ( Dept_ID, Dept_Name) VALUES ( 5002, 'Img-US');
+INSERT INTO Department_T ( Dept_ID, Dept_Name) VALUES ( 5003, 'Img-CT');
+INSERT INTO Department_T ( Dept_ID, Dept_Name) VALUES ( 6001, 'Admin');
+INSERT INTO Department_T ( Dept_ID, Dept_Name) VALUES ( 7001, 'IT');
+INSERT INTO Department_T ( Dept_ID, Dept_Name) VALUES ( 8001, 'Operation');
+INSERT INTO Department_T ( Dept_ID, Dept_Name) VALUES ( 9001, 'HomeHealth');
+
+SELECT * FROM Department_T ;
+
+
+CREATE TABLE Expense_T
+(
+  Description VARCHAR NOT NULL,
+  Loc_ID VARCHAR NOT NULL REFERENCES Location_T,
+  Dept_ID VARCHAR NULL REFERENCES Department_T,
+  AMOUNT int NOT NULL,
+  DATE date NOT NULL
+ );
+
+ INSERT INTO Expense_T(Description, Loc_ID, Dept_ID, AMOUNT, DATE) VALUES ('SALARY', '003', 6001, 150220.09, '2014-12-31');
+ INSERT INTO Expense_T(Description, Loc_ID, Dept_ID, AMOUNT, DATE) VALUES ('BUILDING', '014', 2000, 6000000, '2014-12-31');
+ INSERT INTO Expense_T(Description, Loc_ID, Dept_ID, AMOUNT, DATE) VALUES ('COGS','001', 4002, 50432, '2014-11-03');
+ INSERT INTO Expense_T(Description, Loc_ID, Dept_ID, AMOUNT, DATE) VALUES ('EQIPMENT', '008', 5003, 250000, '2014-10-03');
+ INSERT INTO Expense_T(Description, Loc_ID, Dept_ID, AMOUNT, DATE) VALUES ('COMMUNITY_SERVICE', '005', 9001, 10000, '2014-07-04');
+ INSERT INTO Expense_T(Description, Loc_ID, Dept_ID, AMOUNT, DATE) VALUES ('OVHD', '014', 6001, 5000, '2014-12-31');
+ INSERT INTO Expense_T(Description, Loc_ID, Dept_ID, AMOUNT, DATE) VALUES ('TAXATION', '010', 6001, 200000, '2014-07-01');
+ INSERT INTO Expense_T(Description, Loc_ID, Dept_ID, AMOUNT, DATE) VALUES ('FINES_FEES', '002',6001, 5000, '2014-11-22');
+ INSERT INTO Expense_T(Description, Loc_ID, Dept_ID, AMOUNT, DATE) VALUES ('TRAINING_EDUCATION','010',6001, 20000, '2014-08-20');
+ INSERT INTO Expense_T(Description, Loc_ID, Dept_ID, AMOUNT, DATE) VALUES ('SALARY', '001', 2000, 750000, '2014-12-31');
+ INSERT INTO Expense_T(Description, Loc_ID, Dept_ID, AMOUNT, DATE) VALUES ('COGS', '013', 4003, 355.43, '2014-12-01');
+ INSERT INTO Expense_T(Description, Loc_ID, Dept_ID, AMOUNT, DATE) VALUES ('OVHD', '001', 1000, 300000, '2014-12-31');
+ INSERT INTO Expense_T(Description, Loc_ID, Dept_ID, AMOUNT, DATE) VALUES ('EQUIPMENT', '014',7001, 1000000, '2014-12-31');
+ INSERT INTO Expense_T(Description, Loc_ID, Dept_ID, AMOUNT, DATE) VALUES ('OVHD', '005', 2000, 150000, '2014-12-31');
+ INSERT INTO Expense_T(Description, Loc_ID, Dept_ID, AMOUNT, DATE) VALUES ('OVHD', '012', 2000, 25000, '2014-12-31');
+ INSERT INTO Expense_T(Description, Loc_ID, Dept_ID, AMOUNT, DATE) VALUES ('OVHD', '011', 2000, 65000, '2014-12-31');
+     
+ SELECT * FROM Expense_T;
+
+
+--SORT THE HIGHTEST OVHEAD EXPENSE DEPT AND LOCATION
+ SELECT
+  L.LOC_NAME, 
+  D.dept_NAME, 
+  E.amount OVHD_EXPENSE,
+  L.zip_code
+  
+  
+FROM 
+  public.expense_t E 
+ RIGHT JOIN public.location_t L ON L.loc_id = E.LOC_id LEFT JOIN public.department_t D ON E.dept_id = D.dept_id
+  
+WHERE 
+  
+  E.description = 'OVHD'
+GROUP BY
+L.LOC_NAME,  
+D.DEPT_NAME, 
+OVHD_EXPENSE,
+L.zip_code 
+ORDER BY OVHD_EXPENSE DESC;
+
+-- One to many 
+--L.Loc_ID to E.Loc_ID & D.Dept_ID to E.Dept_ID
+--FIND EXPENSE TREND TO MAKE BUSINESS DECISIOIN
+
+SELECT 
+ E.DESCRIPTION,
+   L.LOC_NAME, 
+  D.dept_NAME, 
+  SUM(E.AMOUNT) EXPENSE
+  
+  
+  
+FROM 
+  public.expense_t E 
+ LEFT JOIN public.location_t L ON L.loc_id = E.LOC_id LEFT JOIN public.department_t D ON E.dept_id = D.dept_id
+  
+
+GROUP BY 
+E.DESCRIPTION,
+L.LOC_NAME, 
+  D.dept_NAME
+ORDER BY EXPENSE DESC;
+
+ CREATE TABLE Revenue_T
+ (
+   Description VARCHAR NOT NULL,
+  Loc_ID VARCHAR NOT NULL REFERENCES Location_T,
+  Dept_ID VARCHAR NULL REFERENCES Department_T,
+  AMOUNT int NOT NULL,
+  DATE date NOT NULL
+ );
+
+INSERT INTO Revenue_T(Description, Loc_ID, Dept_ID, AMOUNT, DATE) VALUES ('MEMBERSHIP','001',NULL,200000,'2014-01-20');
+INSERT INTO Revenue_T(Description, Loc_ID, Dept_ID, AMOUNT, DATE) VALUES ('MEMBERSHIP','002',NULL,110000,'2014-02-20');
+INSERT INTO Revenue_T(Description, Loc_ID, Dept_ID, AMOUNT, DATE) VALUES ('MEMBERSHIP','003',NULL,56000,'2014-01-20');
+INSERT INTO Revenue_T(Description, Loc_ID, Dept_ID, AMOUNT, DATE) VALUES ('MEMBERSHIP','004',NULL,340000,'2015-01-20');
+INSERT INTO Revenue_T(Description, Loc_ID, Dept_ID, AMOUNT, DATE) VALUES ('MEMBERSHIP','005',NULL,70000,'2015-01-20');
+INSERT INTO Revenue_T(Description, Loc_ID, Dept_ID, AMOUNT, DATE) VALUES ('MEMBERSHIP','006',NULL,50000,'2014-02-20');
+INSERT INTO Revenue_T(Description, Loc_ID, Dept_ID, AMOUNT, DATE) VALUES ('MEMBERSHIP','007',NULL,310000,'2015-01-20');
+INSERT INTO Revenue_T(Description, Loc_ID, Dept_ID, AMOUNT, DATE) VALUES ('MEMBERSHIP','008',NULL,250000,'2015-02-20');
+INSERT INTO Revenue_T(Description, Loc_ID, Dept_ID, AMOUNT, DATE) VALUES ('MEMBERSHIP','009',NULL,1000,'2014-01-20');
+INSERT INTO Revenue_T(Description, Loc_ID, Dept_ID, AMOUNT, DATE) VALUES ('COPAYMENT','011',1000,150,'2014-03-05');
+INSERT INTO Revenue_T(Description, Loc_ID, Dept_ID, AMOUNT, DATE) VALUES ('COPAYMENT','003',3001,470,'2014-01-05');
+INSERT INTO Revenue_T(Description, Loc_ID, Dept_ID, AMOUNT, DATE) VALUES ('COPAYMENT','007',4002,800,'2014-08-02');
+INSERT INTO Revenue_T(Description, Loc_ID, Dept_ID, AMOUNT, DATE) VALUES ('COPAYMENT','010',2000,1100,'2014-10-01');
+INSERT INTO Revenue_T(Description, Loc_ID, Dept_ID, AMOUNT, DATE) VALUES ('COPAYMENT','014',2000,782,'2014-08-03');
+INSERT INTO Revenue_T(Description, Loc_ID, Dept_ID, AMOUNT, DATE) VALUES ('COPAYMENT','008',2000,1000,'2014-11-25');
+INSERT INTO Revenue_T(Description, Loc_ID, Dept_ID, AMOUNT, DATE) VALUES ('COPAYMENT','002',2000,235,'2015-01-05');
+INSERT INTO Revenue_T(Description, Loc_ID, Dept_ID, AMOUNT, DATE) VALUES ('COPAYMENT','005',2000,450,'2014-09-02');
+INSERT INTO Revenue_T(Description, Loc_ID, Dept_ID, AMOUNT, DATE) VALUES ('COPAYMENT','006',2000,670,'2015-01-30');
+INSERT INTO Revenue_T(Description, Loc_ID, Dept_ID, AMOUNT, DATE) VALUES ('DONATION','013',5002,3000000,'2014-07-10');
+
+SELECT * FROM Revenue_T;
+
+--many to many relation
+--E.Loc_ID to R.Loc_ID
+  
+SELECT
+   L.loc_name, 
+  L.Loc_ID,
+  
+ SUM(R.amount) REVENUE,
+  SUM(E.amount) EXPENSE
+  
+  
+  FROM 
+  public.expense_t E INNER JOIN PUBLIC.REVENUE_t R on e.LOC_ID=R.LOC_ID
+ LEFT JOIN public.location_t L ON L.loc_id = E.LOC_id LEFT JOIN public.department_t D ON E.dept_id = D.dept_id
+  
+GROUP BY
+L.LOC_NAME,  
+L.LOC_ID
+
+ORDER BY
+  REVENUE, EXPENSE DESC;
+
+
+ -- many to many
+ --E.DEPT_ID to R.dept_id 
+SELECT
+   d.dept_name, 
+  L.Loc_ID,
+  r.description,
+ R.amount REVENUE,
+ e.description,
+  E.amount EXPENSE
+  
+  
+  FROM 
+  public.expense_t E INNER JOIN PUBLIC.REVENUE_t R on e.LOC_ID=R.LOC_ID
+ LEFT JOIN public.location_t L ON L.loc_id = E.LOC_id LEFT JOIN public.department_t D ON E.dept_id = D.dept_id
+  where e.dept_id = r.dept_id and e.loc_id = r.loc_id
+GROUP BY
+d.dept_name, 
+  L.Loc_ID,
+  r.description,
+ REVENUE,
+ e.description,
+  EXPENSE
+
+ORDER BY
+  REVENUE, EXPENSE DESC;
+
+Enter file contents here
