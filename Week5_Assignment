@@ -1,0 +1,58 @@
+SQL to make the join table by the assignment requirement
+
+SELECT 
+  flights.origin, 
+  flights.carrier, 
+  w.temp, 
+  p.seats, 
+  flights.dep_delay, 
+  flights.arr_delay, 
+  flights.air_time, 
+  flights.year, 
+  flights.month, 
+  flights.day,
+  w.hour
+  FROM 
+  public.planes p RIGHT JOIN public.flights ON p.tailnum=flights.tailnum 
+  RIGHT JOIN public.weather w ON flights.origin= w.origin and flights.year=w.year and flights.month=w.month and flights.day = w.day
+  
+WHERE 
+  
+  flights.origin = 'JFK' OR 
+  flights.origin = 'LGA' OR 
+  flights.origin = 'EWR' AND 
+  flights.dest = 'LAX' AND 
+  flights.year*10000 + flights.month*100 + flights.day between 20130223 and 20130301 AND
+  flights.hour = w.hour
+  ;
+  
+  Import the exported csv file into R studio
+  
+   weeks5_assign_table <- read.csv("~/IS 607/weeks5_assign_table.csv", sep=";")
+>   View(weeks5_assign_table)
+> data <- weeks5_assign_table
+> summary(data)
+ origin        carrier          temp           seats      
+ EWR:  50   B6     :1080   Min.   :17.96   Min.   :  2.0  
+ JFK:2785   DL     : 594   1st Qu.:32.00   1st Qu.: 80.0  
+ LGA: 312   AA     : 393   Median :71.06   Median :178.0  
+            9E     : 362   Mean   :54.30   Mean   :145.9  
+            MQ     : 230   3rd Qu.:71.60   3rd Qu.:200.0  
+            UA     : 177   Max.   :75.92   Max.   :379.0  
+            (Other): 311                   NA's   :536    
+   dep_delay        arr_delay         air_time          year     
+ Min.   :-17.00   Min.   :-68.00   Min.   : 24.0   Min.   :2013  
+ 1st Qu.: -4.00   1st Qu.:-14.00   1st Qu.: 76.0   1st Qu.:2013  
+ Median :  0.00   Median :  0.00   Median :148.0   Median :2013  
+ Mean   : 18.73   Mean   : 15.17   Mean   :174.2   Mean   :2013  
+ 3rd Qu.: 23.00   3rd Qu.: 30.00   3rd Qu.:297.0   3rd Qu.:2013  
+ Max.   :503.00   Max.   :493.00   Max.   :649.0   Max.   :2013  
+ NA's   :59       NA's   :71       NA's   :71                    
+     month             day             hour      
+ Min.   : 2.000   Min.   : 1.00   Min.   : 4.00  
+ 1st Qu.: 7.000   1st Qu.: 2.00   1st Qu.: 6.00  
+ Median : 7.000   Median :20.00   Median :11.00  
+ Mean   : 7.243   Mean   :15.99   Mean   :12.13  
+ 3rd Qu.:10.000   3rd Qu.:23.00   3rd Qu.:19.00  
+ Max.   :12.000   Max.   :31.00   Max.   :22.00  
+                                                 
