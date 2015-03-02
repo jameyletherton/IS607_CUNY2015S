@@ -1,0 +1,182 @@
+Create Tables
+
+
+-- Go to College school
+-- Purpose of the school database: This school database analyzes low income area community schools' academic performance
+-- utilzing correlation between Project Grades and Test Scores, and the instituion the student went to.
+-- The result of analysis will help low income families children education improvement.
+
+
+DROP TABLE IF EXISTS institution CASCADE;
+DROP TABLE IF EXISTS Student_T CASCADE;
+DROP TABLE IF EXISTS Instructor_T CASCADE;
+DROP TABLE IF EXISTS ProjectGrade_T;
+DROP TABLE IF EXISTS TestScore_T;
+
+
+
+--load Institution_T from Public; I borrowed the table from Derek Nokes. He downloaded tables in excel.
+--I don't know yet direct downloading a table from public into postgre using SQL. 
+
+
+CREATE TABLE Institution
+(
+institution_ID int PRIMARY KEY,
+Institution varchar(80) NOT NULL,
+Institution_website varchar(140) NOT NULL
+
+);
+
+INSERT INTO institution (institution_id,institution,institution_website) VALUES(1,'British Columbia Institute of Technology','http://www.bcit.ca/');
+INSERT INTO institution (institution_id,institution,institution_website) VALUES(2,'Adler School of Professional Psychology','http://www.adler.edu/page/campuses/vancouver');
+INSERT INTO institution (institution_id,institution,institution_website) VALUES(3,'Alexander College','http://www.alexandercollege.ca/');
+INSERT INTO institution (institution_id,institution,institution_website) VALUES(4,'Art Institute of Vancouver','http://www.wherecreativitygoestoschool.ca/');
+INSERT INTO institution (institution_id,institution,institution_website) VALUES(5,'Athabasca University','http://www.athabascau.ca/');
+INSERT INTO institution (institution_id,institution,institution_website) VALUES(6,'British Columbia Institute of Technology','http://www.bcit.ca/');
+INSERT INTO institution (institution_id,institution,institution_website) VALUES(7,'Camosun College','http://camosun.ca/');
+INSERT INTO institution (institution_id,institution,institution_website) VALUES(8,'Capilano University','https://www.capilanou.ca/');
+INSERT INTO institution (institution_id,institution,institution_website) VALUES(9,'City University of Seattle','http://www.cityu.edu/locations/americas/vancouverbc.aspx');
+INSERT INTO institution (institution_id,institution,institution_website) VALUES(10,'City University of Seattle','http://www.cityu.edu/locations/americas/victoria.aspx');
+INSERT INTO institution (institution_id,institution,institution_website) VALUES(11,'College of New Caledonia','http://www.cnc.bc.ca/');
+INSERT INTO institution (institution_id,institution,institution_website) VALUES(12,'College of the Rockies','http://www.cotr.bc.ca/');
+INSERT INTO institution (institution_id,institution,institution_website) VALUES(13,'Columbia College','http://www.columbiacollege.ca/');
+INSERT INTO institution (institution_id,institution,institution_website) VALUES(14,'Corpus Christi College','http://corpuschristi.ca/');
+INSERT INTO institution (institution_id,institution,institution_website) VALUES(15,'Douglas College','http://www.douglas.bc.ca/home.html');
+INSERT INTO institution (institution_id,institution,institution_website) VALUES(16,'Emily Carr University of Art and Design','http://www.ecuad.ca/');
+INSERT INTO institution (institution_id,institution,institution_website) VALUES(17,'Fairleigh Dickinson University','http://view.fdu.edu/default.aspx?id=3553');
+INSERT INTO institution (institution_id,institution,institution_website) VALUES(18,'Fraser International College','http://www.fraseric.ca/');
+INSERT INTO institution (institution_id,institution,institution_website) VALUES(19,'Gonzaga University','http://www.gonzaga.edu/');
+INSERT INTO institution (institution_id,institution,institution_website) VALUES(20,'Justice Institute of British Columbia','http://www.jibc.ca/');
+INSERT INTO institution (institution_id,institution,institution_website) VALUES(21,'Kwantlen Polytechnic University','http://www.kwantlen.ca/home.html');
+INSERT INTO institution (institution_id,institution,institution_website) VALUES(22,'Langara College','http://www.langara.bc.ca/');
+INSERT INTO institution (institution_id,institution,institution_website) VALUES(23,'New York Institute of Technology','http://www.nyit.edu/canada/');
+INSERT INTO institution (institution_id,institution,institution_website) VALUES(24,'Nicola Valley Institute of Technology','http://www.nvit.bc.ca/default.htm');
+INSERT INTO institution (institution_id,institution,institution_website) VALUES(25,'North Island College','http://www.nic.bc.ca/');
+INSERT INTO institution (institution_id,institution,institution_website) VALUES(26,'Northern Lights College','http://www.nlc.bc.ca/');
+INSERT INTO institution (institution_id,institution,institution_website) VALUES(27,'Northwest Community College','http://www.nwcc.bc.ca/');
+INSERT INTO institution (institution_id,institution,institution_website) VALUES(28,'Okanagan College','http://www.okanagan.bc.ca/');
+INSERT INTO institution (institution_id,institution,institution_website) VALUES(29,'Queen’s University ','http://business.queensu.ca/invancouver/index.php');
+INSERT INTO institution (institution_id,institution,institution_website) VALUES(30,'Quest University Canada','http://www.questu.ca/');
+INSERT INTO institution (institution_id,institution,institution_website) VALUES(31,'Royal Roads University','http://www.royalroads.ca/');
+INSERT INTO institution (institution_id,institution,institution_website) VALUES(32,'Selkirk College','http://www.selkirk.bc.ca/');
+INSERT INTO institution (institution_id,institution,institution_website) VALUES(33,'Simon Fraser University','http://www.sfu.ca/');
+INSERT INTO institution (institution_id,institution,institution_website) VALUES(34,'Sprott-Shaw Degree College','http://www.acsenda.com/');
+INSERT INTO institution (institution_id,institution,institution_website) VALUES(35,'Thompson Rivers University','http://www.tru.ca/');
+INSERT INTO institution (institution_id,institution,institution_website) VALUES(36,'Trinity Western University','http://twu.ca/');
+INSERT INTO institution (institution_id,institution,institution_website) VALUES(37,'University Canada West','http://www.ucanwest.ca/');
+INSERT INTO institution (institution_id,institution,institution_website) VALUES(38,'University of British Columbia','http://www.ubc.ca/');
+INSERT INTO institution (institution_id,institution,institution_website) VALUES(39,'University of Northern British Columbia','http://www.unbc.ca/');
+INSERT INTO institution (institution_id,institution,institution_website) VALUES(40,'University of Oregon','https://education.uoregon.edu/program/educational-leadership-ms-canada');
+INSERT INTO institution (institution_id,institution,institution_website) VALUES(41,'University of the Fraser Valley','http://www.ufv.ca/');
+INSERT INTO institution (institution_id,institution,institution_website) VALUES(42,'University of Victoria','http://www.uvic.ca/');
+INSERT INTO institution (institution_id,institution,institution_website) VALUES(43,'Vancouver Community College','http://www.vcc.bc.ca/');
+INSERT INTO institution (institution_id,institution,institution_website) VALUES(44,'Vancouver Island University','http://www.viu.ca/');
+
+SELECT * FROM institution;
+
+
+CREATE TABLE Student_T
+(
+Student_ID int PRIMARY KEY,
+Student_LName varchar NOT NULL,
+Student_MName varchar NULL,
+Student_FName varchar NOT NULL,
+Student_Address varchar NULL,
+Student_DOB date NOT NULL,
+Admission date NOT NULL,
+Graduation date NULL,
+Institution_ID int NULL REFERENCES institution
+);
+
+INSERT INTO Student_T(Student_ID, Student_LName,Student_MName, Student_FName, Student_Address, Student_DOB, Admission, Graduation,Institution_ID) VALUES (1,'ETHERTON', 'LEE','JAMEY','711 KAPIOLANI BLVD., HAWAII 96813','1/1/2000', '2/28/2015', NULL,NULL);
+INSERT INTO Student_T(Student_ID, Student_LName,Student_MName, Student_FName, Student_Address, Student_DOB, Admission, Graduation,Institution_ID) VALUES (2,'DOLE','STEVE','BOB',NULL,'4/1/1996', '2/28/2009', NULL,23);
+INSERT INTO Student_T(Student_ID, Student_LName,Student_MName, Student_FName, Student_Address, Student_DOB, Admission, Graduation,Institution_ID) VALUES (3,'KANUTSON', 'WILLIAM','BROWN','1001 MILE ST., HAWAII 96811','9/4/1980', '2/28/2003', NULL,NULL);
+INSERT INTO Student_T(Student_ID, Student_LName,Student_MName, Student_FName, Student_Address, Student_DOB, Admission, Graduation,Institution_ID) VALUES (4,'BORABORA', 'FREDERIC','SUSAN','500 ALA MOAVA BLVD., HAWAII 96813','10/1/2000', '2/28/2015', NULL,NULL);
+INSERT INTO Student_T(Student_ID, Student_LName,Student_MName, Student_FName, Student_Address, Student_DOB, Admission, Graduation,Institution_ID) VALUES (5,'IGE','DAVID','WILLY','111 WARD AVE., HAWAII 96813','2/27/2001', '2/28/2015', NULL,NULL);
+INSERT INTO Student_T(Student_ID, Student_LName,Student_MName, Student_FName, Student_Address, Student_DOB, Admission, Graduation,Institution_ID) VALUES (6,'CLINTON', 'SAMUEL','NANCY','90-7 HALE BLVD., HAWAII 96817','11/4/1999', '8/28/2014', NULL,NULL);
+INSERT INTO Student_T(Student_ID, Student_LName,Student_MName, Student_FName, Student_Address, Student_DOB, Admission, Graduation,Institution_ID) VALUES (7,'GATES', 'JESUS','GAVIN','888 PLUMERIA BLVD., HAWAII 96810','9/11/1998', '2/28/2012', NULL,1);
+INSERT INTO Student_T(Student_ID, Student_LName,Student_MName, Student_FName, Student_Address, Student_DOB, Admission, Graduation,Institution_ID) VALUES (8,'COOK', 'THOMAS','BILL',NULL,'7/4/1980', '2/28/1995','5/15/2001',17);
+INSERT INTO Student_T(Student_ID, Student_LName,Student_MName, Student_FName, Student_Address, Student_DOB, Admission, Graduation,Institution_ID) VALUES (9,'JOBS', 'JOSHUA','TIM',NULL,'6/26/2003', '8/28/2014', NULL,23);
+
+
+CREATE TABLE Instructor_T
+(
+Instructor_ID int PRIMARY KEY,
+Instructor_Name varchar NOT NULL,
+Department varchar NOT NULL,
+Title varchar NULL,
+Hired date NOT NULL,
+Terminated date NULL,
+Suspended date NULL,
+Suspended_Reason varchar NULL,
+ACTIVE varchar NOT NULL
+);
+
+INSERT INTO Instructor_T(Instructor_ID,Instructor_Name, Department, Title, Hired, Terminated, Suspended, Suspended_Reason, ACTIVE)VALUES (1,'ANDY CATLIN','DATA ANALYTICS',NULL,'1/1/2001',NULL,NULL,NULL,'ACTIVE');
+INSERT INTO Instructor_T(Instructor_ID,Instructor_Name, Department, Title, Hired, Terminated, Suspended, Suspended_Reason, ACTIVE)VALUES (2,'MOHAMAD ALII','INFORMATION SCIENCE','DOCTOR','12/1/1987',NULL,'8/1/2013','>50% STUDENTS FAILED','ACTIVE');
+INSERT INTO Instructor_T(Instructor_ID,Instructor_Name, Department, Title, Hired, Terminated, Suspended, Suspended_Reason, ACTIVE)VALUES (3,'DARCY CLARA','MARKETING','ASST-PROF','4/1/2010','12/31/2010',NULL,NULL,'INACTIVE');
+INSERT INTO Instructor_T(Instructor_ID,Instructor_Name, Department, Title, Hired, Terminated, Suspended, Suspended_Reason, ACTIVE)VALUES (4,'NANCY FLOSY','MATHEMATICS',NULL,'7/15/2003',NULL,NULL,NULL,'ACTIVE');
+INSERT INTO Instructor_T(Instructor_ID,Instructor_Name, Department, Title, Hired, Terminated, Suspended, Suspended_Reason, ACTIVE)VALUES (5,'MIKLE JACKSON','MUSIC','INSTRUCTOR','1/1/2001',NULL,NULL,NULL,'ACTIVE');
+INSERT INTO Instructor_T(Instructor_ID,Instructor_Name, Department, Title, Hired, Terminated, Suspended, Suspended_Reason, ACTIVE)VALUES (6,'WILLIAM SMITH','DATA ANALYTICS','INSTRUCTOR','1/1/2015',NULL,NULL,NULL,'ACTIVE');
+INSERT INTO Instructor_T(Instructor_ID,Instructor_Name, Department, Title, Hired, Terminated, Suspended, Suspended_Reason, ACTIVE)VALUES (7,'ADAM PETRIE','HISTORY',NULL,'12/1/2010',NULL,NULL,NULL,'ACTIVE');
+INSERT INTO Instructor_T(Instructor_ID,Instructor_Name, Department, Title, Hired, Terminated, Suspended, Suspended_Reason, ACTIVE)VALUES (8,'NATALIE LOPEZ','DATA ANALYTICS',NULL,'1/1/2001',NULL,NULL,NULL,'ACTIVE');
+
+
+CREATE TABLE ProjectGrade_T
+(
+Project_ID int NOT NULL,
+Project_Grade int NOT NULL,
+Grade_Comment varchar NOT NULL,
+Student_ID int NOT NULL REFERENCES Student_T,
+Instructor_ID int NOT NULL REFERENCES Instructor_T,
+Insert date NOT NULL,
+Update date NULL
+);
+
+
+INSERT INTO ProjectGrade_T(Project_ID,Project_Grade, Grade_Comment, Student_ID,Instructor_ID, Insert, Update)VALUES (1,77,'Late submission & missed 2 requirements',1,1,'12/15/2014',NULL);
+INSERT INTO ProjectGrade_T(Project_ID,Project_Grade, Grade_Comment, Student_ID,Instructor_ID, Insert, Update)VALUES (1,98,'Early submission & missed 3 minor requirements',2,1,'2/15/2015',NULL);
+INSERT INTO ProjectGrade_T(Project_ID,Project_Grade, Grade_Comment, Student_ID,Instructor_ID, Insert, Update)VALUES (2,0,'No submission',3,2,'12/15/2014',NULL);
+INSERT INTO ProjectGrade_T(Project_ID,Project_Grade, Grade_Comment, Student_ID,Instructor_ID, Insert, Update)VALUES (3,80,'meet requirement but 5 errors-updated to referct 2 error correction',4,3,'1/15/2015','1/30/2015');
+INSERT INTO ProjectGrade_T(Project_ID,Project_Grade, Grade_Comment, Student_ID,Instructor_ID, Insert, Update)VALUES (5,90,'Good work',5,5,'12/15/2014',NULL);
+INSERT INTO ProjectGrade_T(Project_ID,Project_Grade, Grade_Comment, Student_ID,Instructor_ID, Insert, Update)VALUES (2,100,'Perfect',6,2,'12/15/2014',NULL);
+INSERT INTO ProjectGrade_T(Project_ID,Project_Grade, Grade_Comment, Student_ID,Instructor_ID, Insert, Update)VALUES (3,80,'Average',7,3,'1/15/2000',NULL);
+INSERT INTO ProjectGrade_T(Project_ID,Project_Grade, Grade_Comment, Student_ID,Instructor_ID, Insert, Update)VALUES (4,91,'Average but the Best Efforts',8,7,'10/15/2000',NULL);
+INSERT INTO ProjectGrade_T(Project_ID,Project_Grade, Grade_Comment, Student_ID,Instructor_ID, Insert, Update)VALUES (5,80,'Correct result, but presentation was not satisfied',9,5,'12/15/2014',NULL);
+INSERT INTO ProjectGrade_T(Project_ID,Project_Grade, Grade_Comment, Student_ID,Instructor_ID, Insert, Update)VALUES (4,83,'No Effort, but make sense',1,7,'10/15/2014',NULL);
+INSERT INTO ProjectGrade_T(Project_ID,Project_Grade, Grade_Comment, Student_ID,Instructor_ID, Insert, Update)VALUES (1,77,'Late submission & missed 2 requirements',5,1,'12/15/2014',NULL);
+
+SELECT * FROM projectgrade_t;
+
+
+CREATE TABLE TestScore_T
+(
+Test_ID varchar NOT NULL,
+Score int NOT NULL,
+Instructor_ID int NOT NULL REFERENCES Instructor_T,
+Student_ID int NOT NULL REFERENCES Student_T,
+Insert date NOT NULL,
+Update_Reason varchar NULL,
+Update date NULL
+);
+
+INSERT INTO TestScore_T(Test_ID, Score,Instructor_ID, Student_ID, Insert, Update_Reason, Update)VALUES ('1-1',83,6,1,'2/20/2015',NULL,NULL);
+INSERT INTO TestScore_T(Test_ID, Score,Instructor_ID, Student_ID, Insert, Update_Reason, Update)VALUES ('1-1',66,1,2,'2/20/2015',NULL,NULL);
+INSERT INTO TestScore_T(Test_ID, Score,Instructor_ID, Student_ID, Insert, Update_Reason, Update)VALUES ('1-1',99,8,3,'2/20/2015',NULL,NULL);
+INSERT INTO TestScore_T(Test_ID, Score,Instructor_ID, Student_ID, Insert, Update_Reason, Update)VALUES ('1-1',0,8,4,'2/20/2015','Cheat','3/1/2015');
+INSERT INTO TestScore_T(Test_ID, Score,Instructor_ID, Student_ID, Insert, Update_Reason, Update)VALUES ('1-1',79,6,5,'2/20/2015',NULL,NULL);
+INSERT INTO TestScore_T(Test_ID, Score,Instructor_ID, Student_ID, Insert, Update_Reason, Update)VALUES ('1-1',85,6,6,'2/20/2015',NULL,NULL);
+INSERT INTO TestScore_T(Test_ID, Score,Instructor_ID, Student_ID, Insert, Update_Reason, Update)VALUES ('1-1',96,8,7,'2/20/2015',NULL,NULL);
+INSERT INTO TestScore_T(Test_ID, Score,Instructor_ID, Student_ID, Insert, Update_Reason, Update)VALUES ('1-1',70,1,8,'2/20/2000',NULL,NULL);
+INSERT INTO TestScore_T(Test_ID, Score,Instructor_ID, Student_ID, Insert, Update_Reason, Update)VALUES ('2-2',89,2,1,'10/20/2014',NULL,NULL);
+INSERT INTO TestScore_T(Test_ID, Score,Instructor_ID, Student_ID, Insert, Update_Reason, Update)VALUES ('2-2',93,2,2,'10/20/2014',NULL,NULL);
+INSERT INTO TestScore_T(Test_ID, Score,Instructor_ID, Student_ID, Insert, Update_Reason, Update)VALUES ('2-2',87,7,3,'10/20/2014',NULL,NULL);
+INSERT INTO TestScore_T(Test_ID, Score,Instructor_ID, Student_ID, Insert, Update_Reason, Update)VALUES ('1-1',100,1,9,'2/20/2015',NULL,NULL);
+INSERT INTO TestScore_T(Test_ID, Score,Instructor_ID, Student_ID, Insert, Update_Reason, Update)VALUES ('2-2',88,2,2,'10/20/2014',NULL,NULL);
+INSERT INTO TestScore_T(Test_ID, Score,Instructor_ID, Student_ID, Insert, Update_Reason, Update)VALUES ('2-2',83,2,3,'10/20/2014',NULL,NULL);
+INSERT INTO TestScore_T(Test_ID, Score,Instructor_ID, Student_ID, Insert, Update_Reason, Update)VALUES ('5-1',94,5,1,'2/12/2015',NULL,NULL);
+
+
+SELECT * FROM testscore_t;
+
+
