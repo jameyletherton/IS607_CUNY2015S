@@ -179,4 +179,59 @@ INSERT INTO TestScore_T(Test_ID, Score,Instructor_ID, Student_ID, Insert, Update
 
 SELECT * FROM testscore_t;
 
+--JOIN STATEMENT TO HAVE NULL VALUE GRACEFULLY
 
+SELECT 
+  institution.institution_id, 
+  institution.institution, 
+  institution.institution_website, 
+  student_t.student_lname, 
+  student_t.student_fname, 
+  student_t.admission, 
+  student_t.student_id, 
+  student_t.Student_Address, 
+  student_t.graduation,
+  SUM(Projectgrade_T.Project_Grade),
+  SUM(TestScore_T.Score)
+FROM 
+  public.institution INNER JOIN public.student_t ON  institution.institution_id = student_t.institution_id 
+  RIGHT JOIN public.projectgrade_t ON student_t.student_id= projectgrade_t.student_id
+  RIGHT JOIN public.TestScore_T ON student_t.student_id = TestScore_T.student_ID
+  
+WHERE 
+
+ student_t.institution_id=institution.institution_id 
+ 
+GROUP BY
+institution.institution_id, 
+  institution.institution, 
+  institution.institution_website, 
+  student_t.student_lname, 
+  student_t.student_fname, 
+  student_t.admission, 
+  student_t.student_id, 
+  student_t.institution_id, 
+  student_t.graduation
+
+    ;
+
+--CAST FUNCTION TO HANDLE NULL
+i keep getting error from cast-ERROR:  schema "student_t" does not exist
+********** Error **********
+
+
+SELECT 
+  Student_T.student_id, 
+  Student_T.admission, 
+  Student_T.graduation, CAST ((Student_T.graduation = NULL) AS Student_T.admission), 
+  institution.institution_id, 
+  institution.institution, 
+  institution.institution_website
+  
+FROM 
+  public.institution INNER JOIN public.student_t ON  institution.institution_id = Student_T.institution_id 
+  
+where student_T.graduation=NULL
+ 
+  ;
+  
