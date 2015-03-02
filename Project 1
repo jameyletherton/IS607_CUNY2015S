@@ -1,0 +1,15 @@
+-- Join statement to report Null value gracefully
+
+SELECT 
+  Student_T.student_LName, 
+  Student_T.admission, 
+  Student_T.graduation, CAST ((Student_T.graduation = NULL) AS Student_T.admission), 
+  institution.institution_id, 
+  institution.institution, 
+  institution.institution_website
+  
+FROM 
+  public.institution INNER JOIN public.student_t ON  institution.institution_id = Student_T.institution_id 
+  
+ 
+  ;
