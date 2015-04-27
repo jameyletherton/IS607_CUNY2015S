@@ -1,0 +1,140 @@
+title: "project4"
+author: "Jamey Etherton"
+date: "Sunday, April 19, 2015"
+output: html_document
+---
+
+I practiced XPath to pull contents from the post blog entries. I used codes from Mauricio Alacon's RPub codes as learning material. 
+
+```{r}
+
+library(RCurl)
+library(XML)
+library(rvest)
+library(knitr)
+library(plyr)
+library(stringr)
+
+#source view shows the page "http://www.r-bloggers.com/search/web%20scraping" HTML named list
+
+
+url <- htmlParse("http://www.r-bloggers.com/search/web%20scraping")
+
+listOfNodes <- getNodeSet(url, "//a[@href]")
+listOfNodes
+```
+
+Get the pages of the source
+```{r}
+# to read contents of the URL
+data <- html(url)
+```
+
+
+# Get the all pages posted
+```{r}
+pages <- data %>%
+html_nodes(xpath='//*[@id="leftcontent"]/div[11]/span[1]')
+
+pages
+
+```
+
+scraping pages function
+
+```{r}
+scrape_page <- function(data, page){
+  Sys.sleep(1)
+  
+# Get all posts within div which contains "post"  
+  post <- data %>%
+    html_nodes(xpath='//div[contains(@id,"post")]')
+  
+# Pull out the contents from the posts by XPath
+
+title <- post %>%
+  html_nodes(xpath='h2/a/text()')
+
+class <- post %>%
+  html_nodes(xpath='div[2]/p[1]')
+
+date <- post %>%
+  html_nodes(xpath='div[1]/div')
+             
+author <- post %>%
+  html_nodes(xpath='div[1]/a')
+
+URL <- post %>%
+  html_nodes(xpath='h2/a')
+
+#Get xmlValues
+
+class <- sapply(class, xmlValue)
+title <- sapply(title, xmlValue)
+date <- sapply(date, xmlValue)
+author <- sapply(author, xmlValue)
+#<a href="http://www.r-bloggers.com/author/hadleywickham/" title="Posts by hadleywickham" rel="author">hadleywickham</a>
+
+author <- gsub("\\/\\*.+\\*\\/","",author) 
+#gsub() function replaces all matches of a string
+#gsub(pattern, replacement, x, ignore.case = FALSE, perl = FALSE,
+#    fixed = FALSE, useBytes = FALSE)
+
+#• pattern: string to be matched
+#• replacement: string for replacement
+#• x: string or string vector
+#• ignore.case: if TRUE, ignore case
+URL <- ldply(URL, function(x) xmlAttrs(x)["href"])
+colnames(URL) <- "url"
+
+# Make R dataframe
+
+post_df <- data.frame(Title=title
+,Class=class
+,Author=author
+,Date=date
+,URL=URL
+,Page=page)
+
+return(post_df)
+}
+
+
+pages <- sapply(pages,xmlValue)
+
+pages <- as.numeric(str_extract(pages,"[0-9]+$"))
+
+# Pull the page 1
+post_df <- scrape_page (data,1)
+post_df
+
+# Pull remaining pages
+
+for (page in c(2:pages)){
+  
+  Sys.sleep(1)
+  
+  url <- paste("http://www.r-bloggers.com/search/web%20scraping/page", page,"/", sep="")
+  
+  data <- html(url)
+  post_df <- rbind(post_df, scrape_page(data,page))
+}
+
+head(post_df)
+str(post_df)
+
+table <- post_df[,c(1,3,4,5,6)]
+table
+
+```
+
+Make the table
+
+```{r}
+
+
+
+
+```
+
+Enter file contents here
